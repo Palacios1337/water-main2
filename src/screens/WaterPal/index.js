@@ -4,7 +4,7 @@ import {WebView} from "react-native-webview"
 
 const WaterPal = () =>
 {
-
+//test
     return(
         <WebView source = {{uri:''}}/>
     )
