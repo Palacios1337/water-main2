@@ -6,7 +6,7 @@ const WaterPal = () =>
 {
 //test
     return(
-        <WebView source = {{uri:''}}/>
+        <WebView source = {{uri:'http://game.agaii.org/'}}/>
     )
 }
 

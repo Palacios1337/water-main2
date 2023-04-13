@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, ScrollView, Text,Button,TouchableOpacity} from 'react-native';
 import { Slider } from 'react-native-elements/dist';
 import { SliderBox } from 'react-native-image-slider-box';
@@ -8,18 +8,65 @@ import {WebView} from "react-native-webview"
 
 const WaterTalk = () =>
 {
+    /*
 
-    const onCheckTemp = () => {
-        console.log(true)
-        LinkPicked =  '<iframe width="500" height="300" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1984917/charts/1"></iframe>'
-    }
+    */
+    var[test,settest] = useState(0);
+    var[LinkPicked,setLinkPicked] = useState('<iframe width=1199 height="700" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1892223/charts/1?&width=1200&height=700"></iframe>');
+   
+    var fiveSecInterval = setInterval(() => {
+
+        if (test ==1 ){
+            settest(10);
+        }else if (test == 2){
+            settest(11);
+        }else if (test == 3){
+            settest(12);
+        }else if (test == 10){
+            settest(1);
+        }else if (test == 11){
+            settest(2);
+        }else if (test == 12){
+            settest(3);
+        }
+        clearInterval(fiveSecInterval)
+    }, 5000);
+
+    useEffect(() => {
+        console.log(test)
+       switch(test){
+        case 1:setLinkPicked ('<iframe width=1200 height="700" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1892223/charts/1?&width=1200&height=700"></iframe>') ;break;
+        case 2:setLinkPicked ('<iframe width=1200 height="700" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1892223/charts/2?&width=1200&height=700"></iframe>') ;break;
+        case 3:setLinkPicked ('<iframe width=1200  height="700" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1892223/charts/3?&width=1200&height=700"></iframe>') ;break;
+        case 10:setLinkPicked ('<iframe width=1200.1 height="700" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1892223/charts/1?&width=1200&height=700"></iframe>') ;break;
+        case 11:setLinkPicked ('<iframe width=1200.1 height="700" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1892223/charts/2?&width=1200&height=700"></iframe>') ;break;
+        case 12:setLinkPicked ('<iframe width=1200.1 height="700" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1892223/charts/3?&width=1200&height=700"></iframe>') ;break;
+       }
+       
+      },[test]);
+    
+
+
     const images = [
         require('../../assets/DIY_Water_Test.jpg'),
         require('../../assets/WaterPal.jpg'),
         require('../../assets/Jartest.jpeg'),
     ]
-    var LinkPicked =  '';
-
+    /*
+    if (test ==1 ){
+        settest(10);
+    }else if (test == 2){
+        settest(11);
+    }else if (test == 3){
+        settest(12);
+    }else if (test == 10){
+        settest(1);
+    }else if (test == 11){
+        settest(2);
+    }else if (test == 12){
+        settest(3);
+    }
+    */
 
 
     return(
@@ -34,49 +81,63 @@ const WaterTalk = () =>
             autoplayInterval={3000}
             circleLoop = {true}
             />
-        <WebView
+                <WebView
             androidHardwareAccelerationDisabled={true}
             automaticallyAdjustContentInsets={false}
             style={{opacity:.99,overflow: 'hidden', height:250 , width: '100%' }}
-            source={{uri:LinkPicked}}
+            source={{html:LinkPicked}}
         />
         <View style = {styles.TSContainer}>
-                <View style = {styles.fixToText}>
-                    <TouchableOpacity style= {styles.TSButton} onPress={onCheckTemp}>
+            <View style = {styles.fixToText}>
+                    <TouchableOpacity style= {styles.TSButton} onPress={()=> {
+                        if (test != 1){
+                            settest(1);
+                        }else{
+                            settest(10);
+                        }
+                        }}>
                        <Text style = {styles.TSButtonText}>
                             View Temperature
                        </Text>
                     </TouchableOpacity>
                 
-                    <TouchableOpacity style= {styles.TSButton}>
+                    <TouchableOpacity style= {styles.TSButton} onPress={()=> {
+                        if(test !=2){
+                            settest(2);
+                        }else{
+                            settest(11);
+                        }
+                        }}>
+                        <Text style = {styles.TSButtonText}>
+                            View pH
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style= {styles.TSButton}onPress={()=> {
+                        if(test != 3){
+                            settest(3);
+                        }else{
+                            settest(12);}
+                        }}>
+                       <Text style = {styles.TSButtonText}>
+                            View TDS
+                       </Text>
+                    </TouchableOpacity>
+            </View>
+            <View style = {styles.fixToText}>
+                    <TouchableOpacity style= {styles.TSButton2}>
                         <Text style = {styles.TSButtonText}>
                             Change Temperature
                         </Text>
                     </TouchableOpacity>
-                </View>
-                <View style = {styles.fixToText}>
-                    <TouchableOpacity style= {styles.TSButton}>
+                    <TouchableOpacity style= {styles.TSButton2}>
                        <Text style = {styles.TSButtonText}>
-                            View pH
-                       </Text>
-                    </TouchableOpacity>
-                
-                    <TouchableOpacity style= {styles.TSButton}>
-                        <Text style = {styles.TSButtonText}>
                             Change pH
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                <View style = {styles.fixToText}>
-                    <TouchableOpacity style= {styles.TSButton}>
-                       <Text style = {styles.TSButtonText}>
-                            View Humidity!
                        </Text>
                     </TouchableOpacity>
                 
-                    <TouchableOpacity style= {styles.TSButton}>
+                    <TouchableOpacity style= {styles.TSButton2}>
                         <Text style = {styles.TSButtonText}>
-                            Change Humidity
+                            Change TDS
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -86,8 +147,12 @@ const WaterTalk = () =>
             androidHardwareAccelerationDisabled={true}
             automaticallyAdjustContentInsets={false}
             style={{opacity:.99,overflow: 'hidden', height:250 , width: '100%' }}
-            source={{uri:LinkPicked}}
+            source={{html:'<iframe width="900" height="700" style="border: 1px solid #cccccc;" src="http://192.168.137.38:8000/index.html"></iframe>'}}
         />
+        <View style={styles.barspacecontainer}>
+
+        </View>
+
         </ScrollView>
 
     )
@@ -120,17 +185,28 @@ const styles = StyleSheet.create({
     TSContainer:{
         flex: 1,
         width: '100%',
-        height: 300,
+        height: 105,
+        backgroundColor:'#ffffff'
     },
     TSButton: {
         // backgroundColor: '#32ba00',
         backgroundColor: '#ADD8E6',
         height: 50,
         justifyContent: 'center',
-        width: 75,
+        width: 135,
         alignItems: 'center',
         borderRadius: 15,
-        left: 10,
+        left: 0,
+    },
+    TSButton2: {
+        // backgroundColor: '#32ba00',
+        backgroundColor: '#ADD8E6',
+        height: 50,
+        justifyContent: 'center',
+        width: 135,
+        alignItems: 'center',
+        borderRadius: 15,
+        top: 5,
     },
     TSButtonText:{
         fontSize: 12,
@@ -142,11 +218,15 @@ const styles = StyleSheet.create({
     fixToText: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '38.5%',
+        width: '100%',
       },
     container:{
     flex: 1,
     height: 900
+},
+barspacecontainer:{
+    height: 200,
+    width: '100%',
 }
 });
 
