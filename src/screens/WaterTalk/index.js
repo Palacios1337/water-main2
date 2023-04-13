@@ -1,21 +1,25 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, ScrollView, Text,Button,TouchableOpacity} from 'react-native';
+import { View, StyleSheet, ScrollView, Text,Button,TouchableOpacity,TextInput} from 'react-native';
 import { Slider } from 'react-native-elements/dist';
 import { SliderBox } from 'react-native-image-slider-box';
 import {WebView} from "react-native-webview"
 
 
-
+var fiveSecInterval;
 const WaterTalk = () =>
 {
     /*
 
     */
+
     var[test,settest] = useState(0);
     var[LinkPicked,setLinkPicked] = useState('<iframe width=1199 height="700" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1892223/charts/1?&width=1200&height=700"></iframe>');
-   
-    var fiveSecInterval = setInterval(() => {
-
+    var[text, onChangeText] = useState('Enter IP Ex: 192.168.137.38');
+    var[htmlLink,sethtmlLink] = useState()
+ 
+    useEffect(() => {
+        clearInterval(fiveSecInterval);
+    fiveSecInterval = setInterval(() => {
         if (test ==1 ){
             settest(10);
         }else if (test == 2){
@@ -29,10 +33,7 @@ const WaterTalk = () =>
         }else if (test == 12){
             settest(3);
         }
-        clearInterval(fiveSecInterval)
     }, 5000);
-
-    useEffect(() => {
         console.log(test)
        switch(test){
         case 1:setLinkPicked ('<iframe width=1200 height="700" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1892223/charts/1?&width=1200&height=700"></iframe>') ;break;
@@ -46,7 +47,10 @@ const WaterTalk = () =>
       },[test]);
     
 
-
+      useEffect(() => {
+        sethtmlLink('<iframe width="900" height="700" style="border: 1px solid #cccccc;" src="http://'+text+':8000/index.html"></iframe>')
+        console.log(htmlLink)
+      },[text]);
     const images = [
         require('../../assets/DIY_Water_Test.jpg'),
         require('../../assets/WaterPal.jpg'),
@@ -67,7 +71,7 @@ const WaterTalk = () =>
         settest(3);
     }
     */
-
+//'<iframe width="900" height="700" style="border: 1px solid #cccccc;" src="http://192.168.137.38:8000/index.html"></iframe>'
 
     return(
         <ScrollView style = {styles.container}>
@@ -147,8 +151,17 @@ const WaterTalk = () =>
             androidHardwareAccelerationDisabled={true}
             automaticallyAdjustContentInsets={false}
             style={{opacity:.99,overflow: 'hidden', height:250 , width: '100%' }}
-            source={{html:'<iframe width="900" height="700" style="border: 1px solid #cccccc;" src="http://192.168.137.38:8000/index.html"></iframe>'}}
+            source={{html:htmlLink}}
         />
+
+     <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        value={text}
+        placeholder="Enter IP Ex: 192.168.137.38"
+      />
+
+
         <View style={styles.barspacecontainer}>
 
         </View>
@@ -227,7 +240,13 @@ const styles = StyleSheet.create({
 barspacecontainer:{
     height: 200,
     width: '100%',
-}
+},
+input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
 });
 
 export default WaterTalk;
