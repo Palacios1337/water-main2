@@ -53,7 +53,7 @@ const WaterTalk = () =>
       },[text]);
     const images = [
         require('../../assets/DIY_Water_Test.jpg'),
-        require('../../assets/WaterPal.jpg'),
+        require('../../assets/tank.jpeg'),
         require('../../assets/Jartest.jpeg'),
     ]
     /*

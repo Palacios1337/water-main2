@@ -1,10 +1,47 @@
 import { SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { Button, ThemeConsumer} from 'react-native-elements';
+import { Button, Card, ThemeConsumer} from 'react-native-elements';
 import React from 'react';
+import axios from 'axios';
+import { request } from 'react-native-axios';
+
+var CardData = 0;
+
+export const WaterTalk_Images = {
+    ['Water Pump']: { 
+      uri: require('../assets/WaterPumps.jpeg')
+    },
+    ['Water Tower']: { 
+      uri: require('../assets/DIY_Water_Test.jpg')
+    },
+    ['DIY Watershed']: {
+        uri: require('../assets/DIY_Water_Test.jpg')
+      },
+      ['Gas Transfer']: { 
+        uri: require('../assets/DIY_Water_Test.jpg')
+      },
+      ['DIY Water Filter']: {
+        uri: require('../assets/DIY_Water_Test.jpg')
+      },
+      ['Jar Test']: {
+        uri: require('../assets/Jartest.jpeg')
+      },
+      ['Water Quality Parameters']: {
+        uri: require('../assets/AcitvityImages/WaterQuality.png')
+      }
+  }
+
+
 
 const CardItem = (props) =>
 {
+    console.log(props)
+    //console.log('../assets/'+props.imagePath)
+    //console.log(props)
+    string_text = '../assets/'+props.imagePath
+
+    //local_imagepath = require(string_text)
+
     const navigation = useNavigation()
 
     const handleActivitySelection = () =>
@@ -25,14 +62,14 @@ const CardItem = (props) =>
         }
 
     }
-    if (props.activityName == "Water Quality Parameters"){
+    if (props.activityName == "Water Pump"){
         return (
             <View
                 style={styles.mainContainerend}
                 //onPress={handleActivitySelection}
             >
                 <View style={styles.cardBody}>
-                    <ImageBackground source={props.imagePath} style={styles.imageContainer}>
+                    <ImageBackground source={WaterTalk_Images[props.activityName].uri} style={styles.imageContainer}>
                         <View style={styles.activityTitleContainer}>
                         </View>
                     </ImageBackground>
@@ -60,7 +97,7 @@ const CardItem = (props) =>
                 //onPress={handleActivitySelection}
             >
                 <View style={styles.cardBody}>
-                    <ImageBackground source={props.imagePath} style={styles.imageContainer}>
+                    <ImageBackground source={WaterTalk_Images[props.activityName].uri} style={styles.imageContainer}>
                         <View style={styles.activityTitleContainer}>
                         </View>
                     </ImageBackground>
@@ -87,7 +124,7 @@ const CardItem = (props) =>
             //onPress={handleActivitySelection}
         >
             <View style={styles.cardBody}>
-                <ImageBackground source={props.imagePath} style={styles.imageContainer}>
+                <ImageBackground source={WaterTalk_Images[props.activityName].uri} style={styles.imageContainer}>
                     <View style={styles.activityTitleContainer}>
                     </View>
                 </ImageBackground>

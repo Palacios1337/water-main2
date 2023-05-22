@@ -4,8 +4,10 @@ import { TouchableOpacity } from 'react-native';
 import { ScrollView, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CardItem from '../../components/CardItem';
+import axios from 'axios';
 
-
+var initData = ''
+/*
 const initData = [
   {
     id: 7,
@@ -34,7 +36,7 @@ const initData = [
   {
     id: 4,
     activityName: 'Gas Transfer',
-    imagePath: require('../../assets/DIY_Water_Test.jpg'),
+    imagePath: require(r),
     description: 'Understand how treatment works using transfer of gas to treat wastewater and surface water using various chemicals to maintain safe levels of organic matter in water. ',
     grade: 0,
     // pdfPath: require('/Users/leonardoflorero/Developer/ReactNativeProjects/NpxProjects/waterpal/assets/pdfs/JarTestHandout.pdf'),
@@ -67,16 +69,24 @@ const initData = [
     pdfPath: require('../../assets/pdfs/WaterQualityParametersHandout.pdf'),
   }
 ]
+*/
 
+axios.get("http://47.89.252.2:5000/WaterBackend/TeacherInfo.php").then(
+  response => {
+      initData = response.data
+      //console.log(initData)
+  }
+)
 const InstructorHomeScreen = ({ navigation ,route}) => 
 {
+
   //const {Role} = route.params;
   //console.log(Role);
 
+  //axios.get("http://47.89.252.2:7800/TeacherInfo.php")
   console.log("2")
   const [DATA, setData] = useState(initData);
   var filteredData = [];
-
 /*
   const resetData = () => 
   {
@@ -95,6 +105,7 @@ const InstructorHomeScreen = ({ navigation ,route}) =>
     // videoPath={item.videoPath}
     />
   );
+  
 
   const renderButton = ({ item }) => (
     <SelectionButton grades={item.grades} />

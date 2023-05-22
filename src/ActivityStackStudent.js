@@ -20,8 +20,8 @@ const ActivityStack = () =>
       <Stack.Screen name="StudentHome" options={{ headerShown: true, title: 'Student WaterPAL', headerTitleStyle: { color: global.primary }, headerStyle:{backgroundColor:'#97f0d4'} }} component={StudentHomeScreen} />
       <Stack.Screen name="GradeSelection" options={{ headerShown: true, headerBackTitle: 'Back', headerTintColor: global.primary, headerTitle: '', headerTitleStyle: { color: 'red' } }} component={StudentGradeSelection} />
       <Stack.Screen name="ActivityDetails" options={{ headerShown: true, headerBackTitle: 'Back', headerTintColor: global.primary, headerTitle: 'Activity Details', headerTitleStyle: { color: global.primary } }} component={StudentActivitydetailsscreen} />
-      <Stack.Screen name="FAQ" options={{ headerShown: true, headerBackTitle: 'Back', headerTintColor: global.primary, headerTitle: '', headerTitleStyle: { color: 'red' } }} component={FAQ} />
-      <Stack.Screen name="WaterTalk" options={{ headerShown: true, headerBackTitle: 'Back', headerTintColor: global.primary, headerTitle: '', headerTitleStyle: { color: 'red' } }} component={WaterTalk} />
+      <Stack.Screen name="FAQ" options={{ headerShown: true, headerBackTitle: 'Back', headerTintColor: global.primary, headerTitle: '', headerTitleStyle: { color: 'black' } }} component={FAQ} />
+      <Stack.Screen name="WaterTalk" options={{ headerShown: true, title: 'Water Talk', headerBackTitle: 'Back', headerTintColor: global.primary, headerTitle: 'Water Talk', headerTitleStyle: { color: 'black' } }} component={WaterTalk} />
       <Stack.Screen name="WaterPal" options={{ headerShown: true, headerBackTitle: 'Back', headerTintColor: global.primary, headerTitle: '', headerTitleStyle: { color: 'red' } }} component={WaterPal} />
     </Stack.Navigator>
   )
