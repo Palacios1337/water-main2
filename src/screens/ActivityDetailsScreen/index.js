@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, SafeAreaView, Text, ScrollView, Image, TouchableOpacity, ImageBackground,FlatList,Platform,PermissionsAndroid,Button, TouchableHighlight } from 'react-native';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Video from 'react-native-video';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import * as MediaLibrary from 'expo-media-library';
@@ -8,24 +10,40 @@ import * as Permissions from 'expo-permissions';
 import { shareAsync } from 'expo-sharing';
 import WebView from 'react-native-webview';
 
+var Expectations = ''
+
 const Activitydetailsscreen = ({ route, navigation }) =>
 {
+    const { name, grade} = route.params
+    var gradename = "Middle School"
+        console.log(grade)
+    const [data, setData] = useState([]);
 
-    const { name, grade, pdfPath, videoPath,Experiment_Duration,Expectations,Objectives,Delivery,Procedures,Assessment } = route.params
+    const getData = async () => {
+        if(grade == 9){
+            var {data} = await axios.get("http://47.89.252.2:5000/WaterBackend/HSActivityInfo.php?!="+name);
+        }else{
+            var {data} = await axios.get("http://47.89.252.2:5000/WaterBackend/MActivityInfo.php?!="+name);
+        }
 
+      setData(data);
+      
+    };
+
+    useEffect(() => {
+      getData();
+      if(data === undefined) {
+        data = []
+      }
+    }, []);
 
     const downloadFromUrl = async() => {
 
-
-        console.log('clicked');
-
         const filename = name + ".pdf"
-        const result =  await FileSystem.downloadAsync(pdfPath,FileSystem.documentDirectory + filename);
-      
-        console.log(result);
+        const result =  await FileSystem.downloadAsync(data.pdfPath,FileSystem.documentDirectory + filename);
       
         save(result.uri, filename, result.headers["Content-Type"]);
-      };
+      }
       
       const save = async (uri, filename, mimetype) => {
         if (Platform.OS === "android") {
@@ -37,13 +55,9 @@ const Activitydetailsscreen = ({ route, navigation }) =>
                 await FileSystem.writeAsStringAsync(uri, base64, { encoding: FileSystem.EncodingType.Base64 });
               })
               .catch(e => console.log(e));
-          
             } 
           }
-      };
-
-    console.log(Experiment_Duration)
-    var gradename = "Middle School"
+      }
 
     if (grade == 6){
         gradename = "Middle School"
@@ -51,8 +65,24 @@ const Activitydetailsscreen = ({ route, navigation }) =>
         gradename = "High School"
     }
 
-
-            return (
+    if (data.Expectations === undefined && data.pdfPath === undefined && data.Experiment_Duration === undefined && data.Objectives === undefined && data.Delivery === undefined && data.Procedures == undefined && data.Assessment === undefined && data.videoPath === undefined){
+        data.Expectations = ''
+        data.pdfPath = ''
+        data.Experiment_Duration = ''
+        data.Objectives = ''
+        data.Delivery = ''
+        data.Procedures = ''
+        data.Assessment = ''
+        data.videoPath = ''
+    }else{
+        data.Expectations = data.Expectations.replaceAll("\\n",'\n');
+        data.Objectives = data.Objectives.replaceAll("\\n",'\n');
+        data.Delivery = data.Delivery.replaceAll("\\n",'\n');
+        data.Procedures = data.Procedures.replaceAll("\\n",'\n');
+        data.Assessment = data.Assessment.replaceAll("\\n",'\n');
+    }
+    console.log(data.Expectations)
+        return (
 
                 <ScrollView style={styles.scrollContainer}  overScrollMode={"never"}>
                     <View>
@@ -60,19 +90,19 @@ const Activitydetailsscreen = ({ route, navigation }) =>
                         webViewStyle={ {opacity:0.99} }
                         height={300}
                         play={true}
-                        videoId = {videoPath}
+                        videoId = {data.videoPath}
                     />
                     </View>
 
                     <Text style={styles.titleText}>{name}</Text>
                     <Text style={styles.gradeText}>Grade: {gradename}</Text>
-                    <Text style={styles.gradeText}>Experiment Duration: {Experiment_Duration} Minutes</Text>
+                    <Text style={styles.gradeText}>Experiment Duration: {data.Experiment_Duration} Minutes</Text>
 
 
                     <View style={styles.descriptionContainer}>
                     <Text style={styles.detailsText} >Expectations</Text>
                     <Text style={styles.descriptionText}>
-                        {Expectations}
+                        {data.Expectations}
                     </Text>
                     </View>
 
@@ -86,7 +116,7 @@ const Activitydetailsscreen = ({ route, navigation }) =>
                     <View style={styles.descriptionContainer}>
                     <Text style={styles.detailsText} >Context For Learnining</Text>
                     <Text style={styles.descriptionText}>
-                        {Objectives}
+                        {data.Objectives}
                     </Text>
                     </View>
 
@@ -98,14 +128,14 @@ const Activitydetailsscreen = ({ route, navigation }) =>
                     </Text>
 
                     <Text style={styles.descriptionText}>
-                        {Delivery}
+                        {data.Delivery}
                         {'\n'}
                     </Text>
                     <Text style={styles.detailsText}>
                         Procedures:
                     </Text>
                     <Text style={styles.descriptionText}>
-                        {Procedures}
+                        {data.Procedures}
                         {'\n'}
                     </Text>
                     </View>
@@ -115,7 +145,7 @@ const Activitydetailsscreen = ({ route, navigation }) =>
                     <Text style={styles.descriptionText}>
                     </Text>
                     <Text style={styles.descriptionText}>
-                    {Assessment}
+                    {data.Assessment}
                     </Text>
                     </View>
 
@@ -135,10 +165,6 @@ const Activitydetailsscreen = ({ route, navigation }) =>
                     </Text>
                 </ScrollView>
         ); 
-
-
-    /*
-                    */
 
     }
 

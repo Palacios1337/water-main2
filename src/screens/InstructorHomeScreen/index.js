@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import CardItem from '../../components/CardItem';
 import axios from 'axios';
 
-var initData = ''
+//var initData = ''
 /*
 const initData = [
   {
@@ -70,13 +70,14 @@ const initData = [
   }
 ]
 */
-
+/*
 axios.get("http://47.89.252.2:5000/WaterBackend/TeacherInfo.php").then(
   response => {
       initData = response.data
       //console.log(initData)
   }
 )
+*/
 const InstructorHomeScreen = ({ navigation ,route}) => 
 {
 
@@ -84,8 +85,20 @@ const InstructorHomeScreen = ({ navigation ,route}) =>
   //console.log(Role);
 
   //axios.get("http://47.89.252.2:7800/TeacherInfo.php")
-  console.log("2")
-  const [DATA, setData] = useState(initData);
+
+  const [data, setData] = useState([]);
+
+  const getData = async () => {
+    const { data } = await axios.get("http://47.89.252.2:5000/WaterBackend/TeacherInfo.php");
+    setData(data);
+    console.log(data)
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+
   var filteredData = [];
 /*
   const resetData = () => 
@@ -121,7 +134,7 @@ const InstructorHomeScreen = ({ navigation ,route}) =>
           horizontal={true}
         /> */}
         <FlatList
-          data={DATA}
+          data={data}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           style={homeStyles.overallContainer}

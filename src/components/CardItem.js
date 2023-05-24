@@ -35,7 +35,7 @@ export const WaterTalk_Images = {
 
 const CardItem = (props) =>
 {
-    console.log(props)
+    //console.log(props)
     //console.log('../assets/'+props.imagePath)
     //console.log(props)
     string_text = '../assets/'+props.imagePath
